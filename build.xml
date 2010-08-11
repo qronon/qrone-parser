@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     2005/08/05 16:47:07                                                        
+
+     project    
+     description
+                   
+     Administrator                                                                
+     ====================================================================== -->
+<project name="project" default="jar">
+    <description>
+            description
+    </description>
+	
+	<property name="src" value="src"/>
+	<property name="bin" value="bin"/>
+	<property name="outputjar" value="qrparser.jar"/>
+	<property name="manifest" value="manifest.mf"/>
+
+
+    <!-- ================================= 
+          target: jar              
+         ================================= -->
+    <target name="jar" depends="compile">
+    	<ant antfile="../QrTools/build.xml" target="compile"/>
+    	<ant antfile="../QrTools5/build.xml" target="compile"/>
+    	<ant antfile="../latex2png/build.xml" target="compile"/>
+    	<ant antfile="../source-highlight/build.xml" target="compile"/>
+		<jar destfile="${bin}/${outputjar}" manifest="manifest.mf">
+		    <fileset dir="${bin}"/>
+		    <fileset dir="../QrTools/${bin}"/>
+		    <fileset dir="../QrTools5/${bin}"/>
+		    <fileset dir="../latex2png/${bin}"/>
+		    <fileset dir="../source-highlight/${bin}"/>
+		</jar>
+    </target>
+
+    <!-- ================================= 
+          target: clean              
+         ================================= -->
+    <target name="clean">
+		<delete file="${outputjar}"/>
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: compile                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="compile" depends="clean">
+    	<mkdir dir="${bin}"/>
+        <javac srcdir="${src}"
+         destdir="${bin}"
+         classpath="./"
+         debug="on"
+	/>
+    </target>
+</project>
+
